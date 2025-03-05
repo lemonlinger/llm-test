@@ -23,7 +23,7 @@ test:
 models:
   - name: model-example-1
     type: openai
-    skip: true
+    skip: false
     api_key: YOUR_API_KEY_HERE
     base_url: https://api.example.com/v1
     params:
@@ -33,11 +33,10 @@ models:
       top_p: 1.0
     # 使用模型特定的并发度配置（覆盖全局配置）
     concurrency_levels: [5, 10, 20]
-    # 为此模型启用流式输出，覆盖全局设置
 
   - name: model-example-2
     type: openai
-    skip: true
+    skip: false
     api_key: YOUR_API_KEY_HERE
     base_url: https://api.example.com/v1
     params:
