@@ -1,0 +1,67 @@
+# LLM API性能测试配置文件
+
+# 测试配置
+test:
+  # 基础并发数
+  concurrency: 10
+  # 测试持续时间 (单位：秒)
+  duration: 30s
+  # 每个并发级别的预热时间 (单位：秒)
+  warmup_duration: 0s
+  # 每个请求的超时时间 (单位：秒)
+  request_timeout: 120s
+  # 递增的并发数列表，如果设置了此项，将按照此列表依次测试不同并发度
+  concurrency_levels: [10,20,50]
+  # 是否显示进度条
+  show_progress: true
+  # 请求失败重试次数
+  max_retries: 3
+  # 需要计算的延迟百分位列表
+  latency_percentiles: [50, 90, 95, 99]
+
+# 模型配置列表
+models:
+  - name: model-example-1
+    type: openai
+    skip: true
+    api_key: YOUR_API_KEY_HERE
+    base_url: https://api.example.com/v1
+    params:
+      model: model-name
+      temperature: 0.7
+      max_tokens: 3000
+      top_p: 1.0
+    # 使用模型特定的并发度配置（覆盖全局配置）
+    concurrency_levels: [5, 10, 20]
+    # 为此模型启用流式输出，覆盖全局设置
+
+  - name: model-example-2
+    type: openai
+    skip: true
+    api_key: YOUR_API_KEY_HERE
+    base_url: https://api.example.com/v1
+    params:
+      model: model-name
+      temperature: 0.7
+      max_tokens: 3000
+      top_p: 1.0
+    # 更低的并发度级别，适合性能稍弱的模型或API
+    concurrency_levels: [1, 2, 5, 10]
+    # 为此模型禁用流式输出，覆盖全局设置
+    stream: true
+    # 使用代理
+    proxy_name: "example-proxy"
+  
+# 提示词配置
+prompt:
+  # 系统消息
+  system_message: "你是一个助手，请提供简洁明了的回答。"
+  # 用户消息 (测试用的固定输入)
+  user_message: "请简要介绍一下人工智能的发展历史。"
+  # 是否启用流式输出
+  stream: false
+
+# 代理配置
+proxies:
+  - name: "example-proxy"
+    url: "http://proxy.example.com:8080" 
